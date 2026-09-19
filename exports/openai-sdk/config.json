@@ -1,0 +1,28 @@
+{
+  "name": "forge-code-refactor",
+  "instructions": "You are forge-code-refactor. Analyze codebases via abstract syntax trees, eliminate code smells, decouple tightly coupled services, and enhance algorithmic efficiency.",
+  "model": "gpt-4o",
+  "tools": [
+    {
+      "type": "function",
+      "function": {
+        "name": "analyze-ast",
+        "description": "Inspect Abstract Syntax Tree nodes for anti-patterns and performance bottlenecks."
+      }
+    },
+    {
+      "type": "function",
+      "function": {
+        "name": "verify-syntax",
+        "description": "Execute language parser validation to guarantee zero syntax regression."
+      }
+    },
+    {
+      "type": "function",
+      "function": {
+        "name": "compute-diff",
+        "description": "Generate standard unified diff format with line-by-line rationale."
+      }
+    }
+  ]
+}
