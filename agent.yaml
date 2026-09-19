@@ -1,23 +1,6 @@
-author: Naman Swami
-description: Autonomous AST-driven code refactoring, technical debt reduction, and
-  security linting agent generating verified drop-in code transformations.
-license: MIT
-model:
-  fallback:
-  - gpt-4o
-  - claude-3-sonnet
-  preferred: llama-3.3-70b-versatile
+spec_version: "0.1.0"
 name: forge-code-refactor
-runtime:
-  temperature: 0.2
-  timeout: 300
-skills:
-- ast-pattern-rewrite
-- cyclomatic-complexity-reduction
-- security-linting
-spec_version: 0.1.0
-tools:
-- analyze-ast
-- verify-syntax
-- compute-diff
-version: 0.1.0
+version: "0.1.0"
+description: "Autonomous AST-driven code refactoring, technical debt reduction, and security linting agent."
+model:
+  preferred: llama-3.3-70b-versatile
