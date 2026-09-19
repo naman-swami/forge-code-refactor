@@ -1,17 +1,6 @@
-author:
-  email: kgfg00100@gmail.com
-  github: naman-swami
-  name: Naman Swami
-categories:
-- Developer tools
+author: Naman Swami
 description: Autonomous AST-driven code refactoring, technical debt reduction, and
   security linting agent generating verified drop-in code transformations.
-identity:
-  duties: DUTIES.md
-  explainability: EXPLAINABILITY.md
-  fallback_prompt: AGENTS.md
-  rules: RULES.md
-  soul: SOUL.md
 license: MIT
 model:
   fallback:
@@ -20,32 +9,15 @@ model:
   preferred: llama-3.3-70b-versatile
 name: forge-code-refactor
 runtime:
-  default_framework: openai-sdk
-  exports_directory: exports/
-  supported_frameworks:
-  - openai-sdk
-  - crewai
-  - claude-code
-  - lyzr
-  - langchain
+  temperature: 0.2
+  timeout: 300
 skills:
-- name: ast-pattern-rewrite
-  path: skills/ast-pattern-rewrite/
-- name: cyclomatic-complexity-reduction
-  path: skills/cyclomatic-complexity-reduction/
-- name: security-linting
-  path: skills/security-linting/
+- ast-pattern-rewrite
+- cyclomatic-complexity-reduction
+- security-linting
 spec_version: 0.1.0
-tags:
-- forge
-- developer tools
-- opengap
-- portable-agent
 tools:
-- name: analyze-ast
-  path: tools/analyze-ast.yaml
-- name: verify-syntax
-  path: tools/verify-syntax.yaml
-- name: compute-diff
-  path: tools/compute-diff.yaml
+- analyze-ast
+- verify-syntax
+- compute-diff
 version: 0.1.0
