@@ -55,7 +55,7 @@ forge-code-refactor/
 │   └── refactoring_catalog.md       # Refactoring pattern reference
 ├── tests/
 │   └── test_agent.py                # AST analysis regression tests
-├── main.py                          # CLI entry point
+├── refactor.py                          # CLI entry point
 └── requirements.txt
 ```
 
@@ -66,5 +66,5 @@ forge-code-refactor/
 pytest tests/ -v
 
 # Analyze benchmark legacy script
-python main.py --demo
+python refactor.py --demo
 ```

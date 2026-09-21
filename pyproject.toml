@@ -1,0 +1,4 @@
+[tool.forge]
+max_cyclomatic_complexity = 10
+disallow_mutable_defaults = true
+disallow_bare_except = true

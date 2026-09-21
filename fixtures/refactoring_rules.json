@@ -1,0 +1,3 @@
+{
+  "anti_patterns": ["MUTABLE_DEFAULT_ARGUMENT", "BARE_EXCEPT", "DEEP_NESTING"]
+}
