@@ -1,33 +1,24 @@
+import os
 import pytest
-from src.refactor_engine import CodeRefactorAuditor
+from analyzers.ast_complexity import CodeQualityEngine
 
-def test_simple_clean_code():
-    auditor = CodeRefactorAuditor()
-    code = """
-def add(a, b):
-    return a + b
-"""
-    report = auditor.analyze_source(code)
-    assert report["cyclomatic_complexity"] == 1
-    assert report["maintainability_rating"] == "A"
-    assert len(report["detected_code_smells"]) == 0
+def test_legacy_code_anti_patterns():
+    fixtures_dir = os.path.join(os.path.dirname(__file__), "..", "fixtures", "legacy_samples")
+    path = os.path.join(fixtures_dir, "monolithic_calculator.py")
+    res = CodeQualityEngine.analyze_file(path)
+    
+    assert res["cyclomatic_complexity"] >= 6
+    assert res["anti_patterns_count"] >= 2
+    types = [p["type"] for p in res["anti_patterns"]]
+    assert "MUTABLE_DEFAULT_ARGUMENT" in types
+    assert "BARE_EXCEPT" in types
+    assert res["recommendation"] == "REFACTOR_RECOMMENDED"
 
-def test_complex_nested_code():
-    auditor = CodeRefactorAuditor()
-    code = """
-def check(val):
-    if val > 0:
-        if val > 10:
-            if val > 100:
-                return 3
-            return 2
-        return 1
-    elif val < 0:
-        if val < -10:
-            return -2
-        return -1
-    return 0
-"""
-    report = auditor.analyze_source(code)
-    assert report["cyclomatic_complexity"] >= 6
-    assert report["maintainability_index"] < 90
+def test_clean_code_standards():
+    fixtures_dir = os.path.join(os.path.dirname(__file__), "..", "fixtures", "legacy_samples")
+    path = os.path.join(fixtures_dir, "clean_calculator.py")
+    res = CodeQualityEngine.analyze_file(path)
+    
+    assert res["cyclomatic_complexity"] <= 5
+    assert res["anti_patterns_count"] == 0
+    assert res["recommendation"] == "APPROVED"

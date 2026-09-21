@@ -1,36 +1,32 @@
-import json
 import argparse
-from src.refactor_engine import CodeRefactorAuditor
+import os
+from analyzers.ast_complexity import CodeQualityEngine
 
 def main():
-    parser = argparse.ArgumentParser(description="Forge Code Refactor Auditor CLI")
-    parser.add_argument("--demo", action="store_true", help="Run simulated AST complexity refactoring audit")
+    parser = argparse.ArgumentParser(description="Forge Code Refactoring & AST Analysis CLI")
+    parser.add_argument("--demo", action="store_true", help="Analyze benchmark legacy sample")
+    parser.add_argument("--file", type=str, help="Path to Python file to inspect")
     args = parser.parse_args()
 
-    auditor = CodeRefactorAuditor()
-    sample_code = """
-def process_transactions(records):
-    results = []
-    for r in records:
-        if r.get("status") == "ACTIVE":
-            if r.get("amount") > 1000:
-                if r.get("flagged"):
-                    results.append("REJECT")
-                else:
-                    results.append("APPROVE_HIGH")
-            else:
-                results.append("APPROVE_STANDARD")
-        else:
-            results.append("IGNORE")
-    return results
-"""
+    fixtures_dir = os.path.join(os.path.dirname(__file__), "fixtures", "legacy_samples")
 
-    report = auditor.analyze_source(sample_code)
-    print("="*60)
-    print(" FORGE AST CODE QUALITY & MAINTAINABILITY AUDIT")
-    print("="*60)
-    print(json.dumps(report, indent=2))
-    print("="*60)
+    if args.demo:
+        print("=== FORGE CODE REFACTORING AST AUDIT ===\n")
+        for sample in ["monolithic_calculator.py", "clean_calculator.py"]:
+            path = os.path.join(fixtures_dir, sample)
+            res = CodeQualityEngine.analyze_file(path)
+            print(f"File: {sample}")
+            print(f"  Cyclomatic Complexity: {res['cyclomatic_complexity']}")
+            print(f"  Quality Grade: {res['quality_grade']} | Recommendation: {res['recommendation']}")
+            print(f"  Anti-Patterns Detected: {res['anti_patterns_count']}")
+            for p in res["anti_patterns"]:
+                print(f"    [Line {p['line']}] {p['type']} ({p['severity']}): {p['description']}")
+            print("-" * 50)
+    elif args.file:
+        res = CodeQualityEngine.analyze_file(args.file)
+        print(res)
+    else:
+        parser.print_help()
 
 if __name__ == "__main__":
     main()

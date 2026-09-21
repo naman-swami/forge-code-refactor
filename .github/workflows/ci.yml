@@ -1,24 +1,20 @@
-name: OpenGAP CI & Verification
+name: AST Code Quality CI
 
-on:
-  push:
-    branches: [ main ]
-  pull_request:
-    branches: [ main ]
+on: [push, pull_request]
 
 jobs:
-  verify:
+  code-quality:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v4
-      - name: Set up Python
+      - name: Set up Python 3.11
         uses: actions/setup-python@v5
         with:
           python-version: '3.11'
       - name: Install dependencies
         run: pip install -r requirements.txt
-      - name: Run Unit Tests
+      - name: Run AST Unit Tests
         run: pytest tests/ -v
-      - name: Verify OpenGAP Specification
+      - name: Validate OpenGAP 0.1.0 Manifest
         run: |
-          python -c "import yaml; d=yaml.safe_load(open('agent.yaml')); assert d['spec_version']=='0.1.0'; print('OpenGAP Spec Validated')"
+          python -c "import yaml; d=yaml.safe_load(open('agent.yaml')); assert d['spec_version']=='0.1.0' and len(d)==5; print('OpenGAP Spec Validated')"
