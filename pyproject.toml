@@ -1,4 +1,34 @@
+[build-system]
+requires = ["setuptools>=61.0"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "forge-code-refactor"
+version = "0.1.0"
+description = "AST Static Analysis and Automated Python Refactoring Engine"
+authors = [{ name = "Naman Swami", email = "kgfg00100@gmail.com" }]
+readme = "README.md"
+requires-python = ">=3.11"
+dependencies = [
+    "pytest>=7.4.0",
+    "pyyaml>=6.0"
+]
+
 [tool.forge]
 max_cyclomatic_complexity = 10
 disallow_mutable_defaults = true
 disallow_bare_except = true
+cognitive_nesting_threshold = 4
+enforce_early_returns = true
+
+[tool.pytest.ini_options]
+testpaths = ["tests"]
+python_files = ["test_*.py"]
+
+[tool.black]
+line-length = 100
+target-version = ['py311']
+
+[tool.ruff]
+line-length = 100
+select = ["E", "F", "B", "C90"]
